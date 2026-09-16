@@ -1,0 +1,49 @@
+{
+  "enableAllProjectMcpServers": true,
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(npm install)",
+      "Bash(npm install *)",
+      "Bash(npm ci)",
+      "Bash(npm run dev)",
+      "Bash(npm run dev *)",
+      "Bash(npm run build)",
+      "Bash(npm run build *)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint *)",
+      "Bash(npm run test)",
+      "Bash(npm run test *)",
+      "Bash(npm run preview)",
+      "Bash(npm test)",
+      "Bash(npm run *)",
+      "Bash(npx vite *)",
+      "Bash(npx vitest *)",
+      "Bash(npx create-vite *)",
+      "Bash(npx eslint *)",
+      "Bash(vitest *)",
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(git log)",
+      "Bash(git log *)",
+      "Bash(git branch)",
+      "Bash(git branch *)",
+      "Bash(git show *)"
+    ],
+    "deny": [
+      "Bash(npm publish)",
+      "Bash(npm publish *)",
+      "Bash(npm deprecate *)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(git checkout .)",
+      "Bash(git branch -D*)",
+      "Bash(rm -rf *)"
+    ]
+  }
+}
