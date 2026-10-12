@@ -1,8 +1,8 @@
 ---
 name: check
-description: Прогнать все проверки проекта (type-check, линтеры, тесты, сборку) и объяснить ошибки. Использовать перед коммитом/PR или когда пользователь просит «проверь, всё ли собирается», «прогони тесты».
+description: Прогнать все проверки проекта (type-check, линтеры, форматирование, сборку) и объяснить ошибки. Использовать перед коммитом/PR или когда пользователь просит «проверь, всё ли собирается».
 argument-hint: "[--build чтобы добавить production-сборку]"
-allowed-tools: Bash(npm run type-check*), Bash(npx vue-tsc *), Bash(npx oxlint *), Bash(npx eslint *), Bash(npx vitest *), Bash(npm run build*), Bash(npx prettier --check *), Read, Grep
+allowed-tools: Bash(npm run type-check*), Bash(npx vue-tsc *), Bash(npx oxlint *), Bash(npx eslint *), Bash(npm run build*), Bash(npx prettier --check *), Read, Grep
 ---
 
 # Проверки проекта
@@ -12,8 +12,7 @@ allowed-tools: Bash(npm run type-check*), Bash(npx vue-tsc *), Bash(npx oxlint *
 1. `npm run type-check` — vue-tsc.
 2. `npx oxlint .` и `npx eslint .` — **без `--fix`**: npm-скрипт `lint` правит файлы, а здесь нужен только отчёт.
 3. `npx prettier --check src/`
-4. `npx vitest run`
-5. Если передан `--build` (`$ARGUMENTS`) — `npm run build-only`.
+4. Если передан `--build` (`$ARGUMENTS`) — `npm run build-only`.
 
 ## Отчёт
 

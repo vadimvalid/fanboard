@@ -6,9 +6,7 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  // Load environment variables based on the current mode (development, production, etc.)
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
@@ -25,7 +23,7 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/football/, ''),
           headers: {
-            'X-Auth-Token': env.VITE_FOOTBALL_API_KEY ?? '',
+            'X-Auth-Token': env.FOOTBALL_API_KEY ?? '',
           },
         },
       },
