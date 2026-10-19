@@ -10,6 +10,7 @@ export type MatchStatus =
   | 'CANCELLED'
 export type PlayerPosition = 'Goalkeeper' | 'Defence' | 'Midfield' | 'Offence'
 export type MatchWinner = 'HOME_TEAM' | 'AWAY_TEAM' | 'DRAW'
+export type MatchResult = 'W' | 'D' | 'L'
 
 export interface Competition {
   id: number
