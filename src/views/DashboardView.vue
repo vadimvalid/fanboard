@@ -1,38 +1,18 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useAsyncData } from '@/composables/useAsyncData'
-import { useTeamStore } from '@/stores/team'
+import { useTeamMatches } from '@/composables/useTeamMatches'
 import { getMatchResult, formatMatchDate } from '@/utils/match'
-import type { MatchStatus } from '@/types/football'
 
 const props = defineProps<{
   teamId: number
 }>()
 
-const store = useTeamStore()
-const UPCOMING_STATUSES: MatchStatus[] = ['SCHEDULED', 'TIMED', 'IN_PLAY', 'PAUSED']
-
 const {
-  data: matches,
   isLoading: matchesLoading,
   error: matchesError,
-} = useAsyncData(() => store.fetchTeamMatches(props.teamId))
-
-const finishedMatches = computed(() => {
-  return (
-    matches.value
-      ?.filter((match) => match.status === 'FINISHED')
-      .sort((a, b) => a.utcDate.localeCompare(b.utcDate)) ?? []
-  )
-})
-
-const upcomingMatches = computed(() => {
-  return (
-    matches.value
-      ?.filter((match) => UPCOMING_STATUSES.includes(match.status))
-      .sort((a, b) => a.utcDate.localeCompare(b.utcDate)) ?? []
-  )
-})
+  finishedMatches,
+  upcomingMatches,
+} = useTeamMatches(() => props.teamId)
 
 const lastMatch = computed(() => {
   return finishedMatches.value.at(-1) ?? null
@@ -43,7 +23,7 @@ const nextMatch = computed(() => {
 })
 
 const form = computed(() => {
-  return finishedMatches.value?.slice(-5)
+  return finishedMatches.value.slice(-5)
 })
 </script>
 
