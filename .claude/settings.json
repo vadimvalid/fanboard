@@ -52,6 +52,8 @@
       "Read(./.env.*.local)",
       "Edit(./.env.local)",
       "Edit(./.env.*.local)",
+      "Read(./.dev.vars*)",
+      "Edit(./.dev.vars*)",
       "Bash(cat .env*)",
       "Bash(npm publish)",
       "Bash(npm publish *)",
