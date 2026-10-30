@@ -8,7 +8,8 @@
 
 MVP в разработке. Проект отскаффолжен через `create-vue` (Vue 3 + TypeScript +
 Vite, Router, Pinia, Vitest, ESLint/oxlint + Prettier), подключены Tailwind CSS v4
-и Reka UI. Экраны и работа с API ещё не реализованы.
+и Reka UI. Все 5 экранов MVP готовы, приложение задеплоено на Cloudflare Workers:
+https://fanboard.vadiminsk90.workers.dev
 
 Разделение работы:
 - **Логику пишет пользователь** (`<script setup>`, services, types, stores,
@@ -43,8 +44,12 @@ Vite, Router, Pinia, Vitest, ESLint/oxlint + Prettier), подключены Tai
 - Tailwind CSS v4 — стили (подключён как плагин Vite, без `tailwind.config.js`)
 - Reka UI — headless-компоненты (табы, дропдауны, диалоги)
 - Автотесты не пишем (решение пользователя); Vitest остался от scaffold'а
-- Sentry + локальный логгер — ошибки в проде, логи в разработке
-- GitHub Pages + GitHub Actions — деплой и CI
+- Cloudflare Workers — хостинг статики (`dist/`) и прокси `/api/football/*` с кэшем в KV
+  (`worker/index.ts`, конфиг `wrangler.json`)
+- Sentry (ленивая загрузка, только ошибки) + Cloudflare Web Analytics —
+  `src/services/monitoring.ts`, включаются только в прод-сборке при заданных `VITE_*`
+- Workers Logs — логи прокси (`{ path, status, cache, durationMs }`)
+- GitHub Actions (`.github/workflows/ci.yml`) — проверки на PR, деплой на push в `main`
 - football-data.org — источник данных о лигах/командах/матчах/таблицах
 
 ### Структура (план)
@@ -65,6 +70,9 @@ src/
     StandingsView.vue
     SquadView.vue
   router/index.ts
+worker/
+  index.ts                  — Cloudflare Worker: прокси к API + кэш в KV
+  worker-configuration.d.ts — генерируется `wrangler types`, не править
 ```
 
 Роуты: `/`, `/select-team`, `/team/:id`, `/team/:id/matches`,
@@ -77,8 +85,12 @@ src/
 - Free tier не отдаёт CORS-заголовки для браузерных запросов — в dev запросы
   идут через прокси в `vite.config.ts` (`server.proxy`, путь `/api/football`),
   который же подставляет заголовок `X-Auth-Token`.
-- На GitHub Pages (статика) прокси нет — вопрос доступа к API в проде ещё не
-  решён, к нему возвращаемся на шаге деплоя.
+- В проде тот же путь `/api/football` обслуживает Worker: ключ — секрет
+  `FOOTBALL_API_KEY` (`wrangler secret put`), локально `wrangler dev` берёт его
+  из `.env.local`. Лимит 10 запросов/мин общий для всех посетителей, поэтому
+  Worker кэширует ответы в KV (10 мин матчи/таблица, 6 ч остальное) и при
+  ошибке API отдаёт устаревшую копию (`X-Cache: STALE`).
+- KV free tier: 1000 записей в день — TTL на сервере не уменьшать без расчёта.
 - API-ключ **не коммитить**: он лежит в `.env.local` (покрыт `*.local`
   в `.gitignore`), шаблон без значения — в `.env.example`.
 - Ключ используется **только** в конфиге прокси (серверная часть Vite), в коде

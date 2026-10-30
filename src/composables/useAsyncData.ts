@@ -1,5 +1,6 @@
 import { ref, watchEffect } from 'vue'
 import { FootballApiError } from '@/services/footballApi'
+import { reportError } from '@/services/monitoring'
 
 export function useAsyncData<T>(load: () => Promise<T>) {
   const data = ref<T | null>(null)
@@ -22,6 +23,8 @@ export function useAsyncData<T>(load: () => Promise<T>) {
         data.value = result
       }
     } catch (e) {
+      // Report the original error: below it gets wrapped and the stack trace would be lost.
+      reportError(e)
       if (!canceled) {
         error.value =
           e instanceof FootballApiError ? e : new FootballApiError(0, 'Неизвестная ошибка')
