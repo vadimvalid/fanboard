@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" role="img" aria-labelledby="title">
-  <title id="title">Fanboard</title>
-  <g transform="translate(8 8)">
-    <path fill="#16C784" d="M22 18h118l-18 28c-5 8-12 12-22 12H55c-14 0-23 7-27 20L8 124c-4 14 3 28 17 33l17-58c3-10 10-15 21-15h43c11 0 20-5 26-15l12-20H72c-16 0-29 8-37 23L22 18z"/>
-    <circle cx="73" cy="139" r="28" fill="#102235"/>
-    <path d="M64 119l13-4 10 10-3 12-11 4-10-8z M77 141l11-4 8 9-5 13-10 3-8-9z M54 143l9-4 7 8-3 11-11 2-7-7z" fill="#fff"/>
-  </g>
-  <text x="190" y="132" font-family="Inter, Arial, Helvetica, sans-serif" font-size="104" font-weight="750" letter-spacing="-4" fill="#102235">Fanboard</text>
-</svg>
